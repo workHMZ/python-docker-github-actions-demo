@@ -15,8 +15,6 @@ def main():
     
     # 对话ID，用于维护服务器端的对话状态
     conversation_id = None
-    
-    print("OpenAI Responses API 连续对话程序")
     print("输入 'quit' 或 'exit' 退出程序")
     print("输入 'new' 开始新对话")
     print("-" * 50)
@@ -43,7 +41,7 @@ def main():
             
             # 构建API请求参数
             request_params = {
-                "model": "gpt-4.1",
+                "model": "gpt-4.1-nano",
                 "input": [
                     {
                         "role": "user",
@@ -54,22 +52,27 @@ def main():
             
             # 如果有对话ID，添加到请求中以继续对话
             if conversation_id:
-                request_params["id"] = conversation_id
+                request_params["previous_response_id"] = conversation_id
             
             # 调用OpenAI API
             print("AI正在思考...")
+            
             response = client.responses.create(**request_params)
+            
             
             # 获取AI回复和对话ID
             ai_response = response.output_text
-            conversation_id = response.id  # 保存对话ID用于后续请求
+            
+            print( response)
+            print(type(response))
+            
+            conversation_id = response.id
+            model = response.model
+            print(f"使用模型: {model}")                
+            print(f"对话ID: {conversation_id}")
             
             # 显示AI回复
             print(f"\nAI: {ai_response}")
-            
-            # 显示对话ID（可选，用于调试）
-            if conversation_id:
-                print(f"[对话ID: {conversation_id[:8]}...]")
             
         except KeyboardInterrupt:
             print("\n\n程序被用户中断")
