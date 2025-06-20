@@ -10,6 +10,5 @@ COPY . /app
 COPY requirements.txt . 
 RUN pip install --no-cache-dir -r requirements.txt 
 
-
 # 指定容器启动时运行的命令
-CMD ["python", "chat.py"]
+CMD ["python", "app.py"]

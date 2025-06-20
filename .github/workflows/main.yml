@@ -30,7 +30,6 @@ jobs: # 定义一个或多个作业
           file: ./Dockerfile # Dockerfile 的文件名
           push: true # 设置为 true 以推送镜像
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-hello-world-app:latest # 镜像的标签，格式为: 你的DockerHub用户名/镜像名:标签
-          # 您也可以添加更多标签，例如基于 commit SHA 的标签:
-          # tags: |
+          # tags:  如果需要多个标签，可以使用逗号分隔
           #   ${{ secrets.DOCKERHUB_USERNAME }}/my-hello-world-app:latest
           #   ${{ secrets.DOCKERHUB_USERNAME }}/my-hello-world-app:${{ github.sha }}
