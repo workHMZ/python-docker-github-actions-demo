@@ -4,8 +4,8 @@
 
 本项目是一个演示项目，展示了如何使用 Python、Docker 和 GitHub Actions 来构建一个自动化 CI/CD 流程。项目中包含了两个独立的 Python 应用：
 
-1.  `app.py`: 一个网络爬虫，用于抓取百度实时热搜榜。
-2.  `chat.py`: 一个基于命令行的聊天机器人，通过 `openai` 库与 OpenAI API 进行交互。
+1. `app.py`: 一个网络爬虫，用于抓取百度实时热搜榜。
+2. `chat.py`: 一个基于命令行的聊天机器人，通过 `openai` 库与 OpenAI API 进行交互。
 
 该项目的主要目标是演示当代码推送到 `main` 分支后，如何通过 GitHub Actions 自动构建 Docker 镜像并将其发布到 Docker Hub。
 
@@ -29,30 +29,30 @@
 このプロジェクトのCI/CDフローは `.github/workflows/main.yml` ファイルで定義されています。詳細は以下の通りです。
 
 * **トリガー条件**:
-    * `main` ブランチにコードがプッシュされた時に自動的にトリガーされます。
-    * GitHub Actionsのページで手動でトリガーすることも可能です (`workflow_dispatch`)。
+  * `main` ブランチにコードがプッシュされた時に自動的にトリガーされます。
+  * GitHub Actionsのページで手動でトリガーすることも可能です (`workflow_dispatch`)。
 
 * **実行環境**:
-    * ジョブは `ubuntu-latest` の仮想マシン上で実行されます。
+  * ジョブは `ubuntu-latest` の仮想マシン上で実行されます。
 
 * **主要なステップと使用されているAction**:
-    1.  **コードのチェックアウト (Checkout)**: 公式の `actions/checkout@v4` Action を使用して、最新のコードを取得します。
-    2.  **Docker Buildxのセットアップ (Set up Docker Buildx)**: `docker/setup-buildx-action@v3` を使用して、マルチプラットフォームイメージのビルドなど、高度なビルド機能を設定します。
-    3.  **Docker Hubへのログイン (Login to Docker Hub)**: `docker/login-action@v3` Action を使用します。このActionは、事前にGitHubリポジトリに設定された `DOCKERHUB_USERNAME` と `DOCKERHUB_TOKEN` という名前のSecretsを読み込み、安全にログインします。
-    4.  **イメージのビルドとプッシュ (Build and push Docker image)**: `docker/build-push-action@v5` Action を使用して、以下の操作を実行します。
-        * プロジェクトのルートディレクトリにある `Dockerfile` に基づいてDockerイメージをビルドします。
-        * ビルドしたイメージをDocker Hubにプッシュします。
-        * イメージに `your-username/my-hello-world-app:latest` のようなタグを付けます。
+  1. **コードのチェックアウト (Checkout)**: 公式の `actions/checkout@v4` Action を使用して、最新のコードを取得します。
+  2. **Docker Buildxのセットアップ (Set up Docker Buildx)**: `docker/setup-buildx-action@v3` を使用して、マルチプラットフォームイメージのビルドなど、高度なビルド機能を設定します。
+  3. **Docker Hubへのログイン (Login to Docker Hub)**: `docker/login-action@v3` Action を使用します。このActionは、事前にGitHubリポジトリに設定された `DOCKERHUB_USERNAME` と `DOCKERHUB_TOKEN` という名前のSecretsを読み込み、安全にログインします。
+  4. **イメージのビルドとプッシュ (Build and push Docker image)**: `docker/build-push-action@v5` Action を使用して、以下の操作を実行します。
+     * プロジェクトのルートディレクトリにある `Dockerfile` に基づいてDockerイメージをビルドします。
+     * ビルドしたイメージをDocker Hubにプッシュします。
+     * イメージに `your-username/my-hello-world-app:latest` のようなタグを付けます。
 
 ### ✅ 設定と利用方法
 
-1.  **このリポジトリを** あなたのGitHubアカウントにフォークします。
-2.  あなたのリポジトリで、`Settings` > `Secrets and variables` > `Actions` に移動します。
-3.  以下の2つのリポジトリシークレット（Repository secrets）を追加します:
-    * `DOCKERHUB_USERNAME`: あなたのDocker Hubユーザー名。
-    * `DOCKERHUB_TOKEN`: あなたのDocker Hubアクセストークン。
-4.  `.github/workflows/main.yml` ファイル内のイメージタグを編集し、`your-username` をあなたのDocker Hubユーザー名に置き換えます。
-5.  `main` ブランチに任意のコミットをプッシュするか、ワークフローを手動でトリガーすると、自動ビルドとプッシュが開始されます。
+1. **このリポジトリを** あなたのGitHubアカウントにフォークします。
+2. あなたのリポジトリで、`Settings` > `Secrets and variables` > `Actions` に移動します。
+3. 以下の2つのリポジトリシークレット（Repository secrets）を追加します:
+   * `DOCKERHUB_USERNAME`: あなたのDocker Hubユーザー名。
+   * `DOCKERHUB_TOKEN`: あなたのDocker Hubアクセストークン。
+4. `.github/workflows/main.yml` ファイル内のイメージタグを編集し、`your-username` をあなたのDocker Hubユーザー名に置き換えます。
+5. `main` ブランチに任意のコミットをプッシュするか、ワークフローを手動でトリガーすると、自動ビルドとプッシュが開始されます。
 
 ---
 
@@ -74,27 +74,27 @@
 本项目的 CI/CD 流程由 `.github/workflows/main.yml` 文件定义，具体如下：
 
 * **触发条件**:
-    * 当有代码推送到 `main` 分支时自动触发。
-    * 允许在 GitHub Actions 页面手动触发 (`workflow_dispatch`)。
+  * 当有代码推送到 `main` 分支时自动触发。
+  * 允许在 GitHub Actions 页面手动触发 (`workflow_dispatch`)。
 
 * **执行环境**:
-    * 作业运行在 `ubuntu-latest` 虚拟机上。
+  * 作业运行在 `ubuntu-latest` 虚拟机上。
 
 * **核心步骤与使用的 Actions**:
-    1.  **检出代码 (Checkout)**: 使用官方的 `actions/checkout@v4` Action 来获取最新的代码。
-    2.  **设置 Docker Buildx (Set up Docker Buildx)**: 使用 `docker/setup-buildx-action@v3` 来配置更高级的构建功能，例如构建多平台镜像。
-    3.  **登录到 Docker Hub (Login to Docker Hub)**: 使用 `docker/login-action@v3` Action，它会读取预先在 GitHub 仓库中配置好的 `DOCKERHUB_USERNAME` 和 `DOCKERHUB_TOKEN` 秘密（Secrets）来进行安全登录。
-    4.  **构建并推送镜像 (Build and push Docker image)**: 使用 `docker/build-push-action@v5` Action 来执行以下操作：
-        * 根据项目根目录下的 `Dockerfile` 文件构建 Docker 镜像。
-        * 将构建好的镜像推送到 Docker Hub。
-        * 为镜像打上标签，例如 `your-username/my-hello-world-app:latest`。
+  1. **检出代码 (Checkout)**: 使用官方的 `actions/checkout@v4` Action 来获取最新的代码。
+  2. **设置 Docker Buildx (Set up Docker Buildx)**: 使用 `docker/setup-buildx-action@v3` 来配置更高级的构建功能，例如构建多平台镜像。
+  3. **登录到 Docker Hub (Login to Docker Hub)**: 使用 `docker/login-action@v3` Action，它会读取预先在 GitHub 仓库中配置好的 `DOCKERHUB_USERNAME` 和 `DOCKERHUB_TOKEN` 秘密（Secrets）来进行安全登录。
+  4. **构建并推送镜像 (Build and push Docker image)**: 使用 `docker/build-push-action@v5` Action 来执行以下操作：
+     * 根据项目根目录下的 `Dockerfile` 文件构建 Docker 镜像。
+     * 将构建好的镜像推送到 Docker Hub。
+     * 为镜像打上标签，例如 `your-username/my-hello-world-app:latest`。
 
 ### ✅ 如何配置和使用
 
-1.  **Fork 本仓库** 到你的 GitHub 账户。
-2.  在你的仓库中，进入 `Settings` > `Secrets and variables` > `Actions`。
-3.  添加以下两个仓库秘密（Repository secrets）:
-    * `DOCKERHUB_USERNAME`: 你的 Docker Hub 用户名。
-    * `DOCKERHUB_TOKEN`: 你的 Docker Hub 访问令牌（Access Token）。
-4.  修改 `.github/workflows/main.yml` 文件中的镜像标签，将 `your-username` 替换为你的 Docker Hub 用户名。
-5.  向 `main` 分支推送任何提交 (commit)，或者手动触发 workflow，即可开始自动化构建和推送。
+1. **Fork 本仓库** 到你的 GitHub 账户。
+2. 在你的仓库中，进入 `Settings` > `Secrets and variables` > `Actions`。
+3. 添加以下两个仓库秘密（Repository secrets）:
+   * `DOCKERHUB_USERNAME`: 你的 Docker Hub 用户名。
+   * `DOCKERHUB_TOKEN`: 你的 Docker Hub 访问令牌（Access Token）。
+4. 修改 `.github/workflows/main.yml` 文件中的镜像标签，将 `your-username` 替换为你的 Docker Hub 用户名。
+5. 向 `main` 分支推送任何提交 (commit)，或者手动触发 workflow，即可开始自动化构建和推送。
