@@ -1,7 +1,5 @@
 # Python Docker GitHub Actions Demo
 
-[中文](./README_zh.md) | [日本語](./README_ja.md)
-
 本项目是一个演示项目，展示了如何使用 Python、Docker 和 GitHub Actions 来构建一个自动化 CI/CD 流程。项目中包含了两个独立的 Python 应用：
 
 1. `app.py`: 一个网络爬虫，用于抓取百度实时热搜榜。
