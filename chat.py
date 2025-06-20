@@ -1,45 +1,47 @@
 from openai import OpenAI
 import os
 
-# 尝试加载.env文件（如果存在）
+
+# .envファイルの読み込みを試行（存在する場合）
 try:
     from dotenv import load_dotenv
     load_dotenv()
 except ImportError:
-    # 如果没有安装python-dotenv，继续使用系统环境变量
+    # python-dotenvがインストールされていない場合、システム環境変数を使用
     pass
 
+
 def main():
-    # 初始化OpenAI客户端
+    # OpenAIクライアントの初期化
     client = OpenAI()
     
-    # 对话ID，用于维护服务器端的对话状态
+    # 対話ID、サーバー側の対話状態を維持するために使用
     conversation_id = None
-    print("输入 'quit' 或 'exit' 退出程序")
-    print("输入 'new' 开始新对话")
+    print("'quit'または'exit'を入力してプログラムを終了")
+    print("'new'を入力して新しい対話を開始")
     print("-" * 50)
     
     while True:
         try:
-            # 获取用户输入
-            user_input = input("\n您: ").strip()
+            # ユーザー入力の取得
+            user_input = input("\nあなた: ").strip()
             
-            # 检查退出命令
-            if user_input.lower() in ['quit', 'exit', '退出']:
-                print("再见！")
+            # 終了コマンドの確認
+            if user_input.lower() in ['quit', 'exit', '終了']:
+                print("さようなら！")
                 break
             
-            # 检查新对话命令
-            if user_input.lower() in ['new', '新对话']:
+            # 新しい対話コマンドの確認
+            if user_input.lower() in ['new', '新しい対話']:
                 conversation_id = None
-                print("开始新对话")
+                print("新しい対話を開始")
                 continue
             
-            # 如果输入为空，跳过
+            # 空の入力の場合はスキップ
             if not user_input:
                 continue
             
-            # 构建API请求参数
+            # APIリクエストパラメータの構築
             request_params = {
                 "model": "gpt-4.1-nano",
                 "input": [
@@ -50,60 +52,62 @@ def main():
                 ]
             }
             
-            # 如果有对话ID，添加到请求中以继续对话
+            # 対話IDがある場合、対話を継続するためにリクエストに追加
             if conversation_id:
                 request_params["previous_response_id"] = conversation_id
             
-            # 调用OpenAI API
-            print("AI正在思考...")
+            # OpenAI API呼び出し
+            print("AIが考えています...")
             
             response = client.responses.create(**request_params)
             
             
-            # 获取AI回复和对话ID
+            # AI応答と対話IDの取得
             ai_response = response.output_text
             
-            print( response)
+            print(response)
             print(type(response))
             
             conversation_id = response.id
             model = response.model
-            print(f"使用模型: {model}")                
-            print(f"对话ID: {conversation_id}")
+            print(f"使用モデル: {model}")                
+            print(f"対話ID: {conversation_id}")
             
-            # 显示AI回复
+            # AI応答の表示
             print(f"\nAI: {ai_response}")
             
         except KeyboardInterrupt:
-            print("\n\n程序被用户中断")
+            print("\n\nプログラムがユーザーによって中断されました")
             break
         except Exception as e:
-            print(f"\n发生错误: {e}")
-            print("请检查您的API密钥和网络连接")
+            print(f"\nエラーが発生しました: {e}")
+            print("APIキーとネットワーク接続を確認してください")
             
-            # 询问是否继续
-            continue_chat = input("是否继续？(y/n): ").strip().lower()
-            if continue_chat not in ['y', 'yes', '是']:
+            # 継続するかどうかの確認
+            continue_chat = input("続行しますか？(y/n): ").strip().lower()
+            if continue_chat not in ['y', 'yes', 'はい']:
                 break
 
+
 def check_api_key():
-    """检查API密钥是否设置"""
+    """APIキーが設定されているかを確認"""
     api_key = os.getenv('OPENAI_API_KEY')
     if not api_key:
-        print("错误: 未找到OPENAI_API_KEY环境变量")
-        print("请设置您的OpenAI API密钥:")
-        print("方法1 - 环境变量:")
+        print("エラー: OPENAI_API_KEY環境変数が見つかりません")
+        print("OpenAI APIキーを設定してください:")
+        print("方法1 - 環境変数:")
         print("  Linux/Mac: export OPENAI_API_KEY='your-api-key-here'")
         print("  Windows: set OPENAI_API_KEY=your-api-key-here")
-        print("方法2 - .env文件:")
-        print("  创建.env文件并添加: OPENAI_API_KEY=your-api-key-here")
-        print("  (确保.env文件在.gitignore中)")
+        print("方法2 - .envファイル:")
+        print("  .envファイルを作成し追加: OPENAI_API_KEY=your-api-key-here")
+        print("  （.envファイルが.gitignoreに含まれていることを確認）")
         return False
     return True
 
+
 if __name__ == "__main__":
-    # 检查API密钥
+    # APIキーの確認
     if check_api_key():
         main()
     else:
-        print("程序退出")
+        print("プログラムを終了")

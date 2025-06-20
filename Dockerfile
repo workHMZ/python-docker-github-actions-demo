@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 
 # 指定容器启动时运行的命令
-CMD ["python", "app.py"]
+CMD ["python", "chat.py"]
